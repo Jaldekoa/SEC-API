@@ -17,6 +17,20 @@ Get the company CIK, tickers and company title from the SEC.
 - `pd.DataFrame`: A DataFrame containing the company ticker data.
 
 
+### get_submissions
+
+Get entity’s current filing history for a specific SEC company.
+
+```python
+  SEC_API.get_companysubmissions(cik: str, header_email: str)
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `cik` | `string` | The CIK (Central Index Key) of the company. Format: CIK##########. |
+| `header_email` | `string` | The email to be used as a User-Agent header in the HTTP request. |
+
+
 ### get_companyconcepts
 
 Get company concepts (a taxonomy and tag) for a specific SEC company.
@@ -80,6 +94,10 @@ from SEC_API import SEC_API
 # Get all company tickers
 df_tickers = SEC_API.get_companytickers()
 df_tickers.to_csv("./Tickers.csv", index=False)
+
+# Get filing history from Apple Inc. (CIK0000320193)
+df_submissions = SEC_API.get_companysubmissions(cik="CIK0000320193, header_email="youremail@email.com")
+df_submissions.to_csv("./AccountsPayable Concepts.csv", index=False)
 
 # Get all AccountsPayableCurrent from Apple Inc. (CIK0000320193)
 df_concepts = SEC_API.get_companyconcepts(cik="CIK0000320193", header_email="youremail@email.com", taxonomy="us-gaap", tag="AccountsPayableCurrent")
