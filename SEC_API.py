@@ -23,13 +23,27 @@ class SEC_API:
         url = f"https://www.sec.gov/files/company_tickers.json"
         raw_json = requests.get(url).json()
 
-        df_list = [{
-            "cik": value_index["cik_str"],
-            "ticker": value_index["ticker"],
-            "title": value_index["title"]
-        }
-            for key_index, value_index in raw_json.items()
-        ]
+        return pd.DataFrame.from_records(raw_json).transpose().reset_index(drop=True)
+
+    @classmethod
+    def get_submissions(cls, cik: str, header_email: str) -> pd.DataFrame:
+        """
+        Get entity’s current filing history for a specific SEC company.
+
+        Args:
+            cik (str): The CIK (Central Index Key) of the company. Format: CIK##########
+            header_email (str): The email to be used as a User-Agent header in the HTTP request.
+
+
+        Returns:
+            pd.DataFrame: A DataFrame containing the company concepts data.
+
+        """
+        url = f"https://data.sec.gov/submissoons/{cik}.json"
+        headers = {"User-Agent": header_email}
+        raw_json = requests.get(url, headers=headers).json()
+
+        df_list = raw_json["filings"]["recent"]
 
         return pd.DataFrame.from_records(df_list)
 
@@ -118,7 +132,7 @@ class SEC_API:
     @classmethod
     def get_frames(cls,  header_email: str, taxonomy: str, tag: str, units: str, period: str) -> pd.DataFrame:
         """
-        Get facts for each reporting entity that is last filed that most closely fits the calendrical period requested.
+        Get frames for each reporting entity that is last filed that most closely fits the calendrical period requested.
         Supports for annual, quarterly and instantaneous data.
 
         Args:
