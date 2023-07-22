@@ -27,6 +27,7 @@ class SEC_API:
         raw_json = requests.get(url).json()
 
         df = pd.DataFrame.from_records(raw_json).transpose().reset_index(drop=True)
+        df.columns = ["cik", "ticker", "title"]
 
         if parse_cik:
             df["cik"] = "CIK" + df["cik"].astype("str").str.pad(10, fillchar='0')
