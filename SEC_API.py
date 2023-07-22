@@ -13,9 +13,12 @@ class SEC_API:
         pass
 
     @classmethod
-    def get_companytickers(cls) -> pd.DataFrame:
+    def get_companytickers(cls, parse_cik: bool = True) -> pd.DataFrame:
         """
         Get the company CIK, tickers and company title from the SEC.
+
+        Args:
+            parse_cik (bool): Get CIK in CIK########## format instead as integer numbers.
 
         Returns:
             pd.DataFrame: A DataFrame containing the company ticker data.
@@ -23,7 +26,12 @@ class SEC_API:
         url = f"https://www.sec.gov/files/company_tickers.json"
         raw_json = requests.get(url).json()
 
-        return pd.DataFrame.from_records(raw_json).transpose().reset_index(drop=True)
+        df = pd.DataFrame.from_records(raw_json).transpose().reset_index(drop=True)
+
+        if parse_cik:
+            df["cik"] = "CIK" + df["cik"].astype("str").str.pad(10, fillchar='0')
+
+        return df
 
     @classmethod
     def get_submissions(cls, cik: str, header_email: str) -> pd.DataFrame:
