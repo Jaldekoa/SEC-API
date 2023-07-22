@@ -13,6 +13,10 @@ Get the company CIK, tickers and company title from the SEC.
   SEC_API.get_companytickers()
 ```
 
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `parse_cik` | `bool` | Get CIK in CIK########## format if True instead as integer numbers. |
+
 #### Returns:
 - `pd.DataFrame`: A DataFrame containing the company ticker data.
 
@@ -67,7 +71,7 @@ Get concepts facts data for a specific SEC company.
 - `pd.DataFrame`: A DataFrame containing frames data.
 
 
-### get_frames()
+### get_frames
 
 Get facts for each reporting entity that is last filed that most closely fits the calendrical period requested. Supports for annual, quarterly and instantaneous data.
 
@@ -92,7 +96,7 @@ Get facts for each reporting entity that is last filed that most closely fits th
 from SEC_API import SEC_API
 
 # Get all company tickers
-df_tickers = SEC_API.get_companytickers()
+df_tickers = SEC_API.get_companytickers(parse_cik = True)
 df_tickers.to_csv("./Tickers.csv", index=False)
 
 # Get filing history from Apple Inc. (CIK0000320193)
