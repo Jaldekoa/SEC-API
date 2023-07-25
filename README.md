@@ -10,7 +10,7 @@ This code allows downloading the JSON file provided by the SEC and formatting to
 Get the company CIK, tickers and company title from the SEC.
 
 ```python
-  SEC_API.get_companytickers()
+  SEC_API.get_companytickers(parse_cik=True)
 ```
 
 | Parameter | Type     | Description                |
