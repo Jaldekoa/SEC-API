@@ -48,7 +48,7 @@ class SEC_API:
             pd.DataFrame: A DataFrame containing the company concepts data.
 
         """
-        url = f"https://data.sec.gov/submissoons/{cik}.json"
+        url = f"https://data.sec.gov/submissions/{cik}.json"
         headers = {"User-Agent": header_email}
         raw_json = requests.get(url, headers=headers).json()
 
